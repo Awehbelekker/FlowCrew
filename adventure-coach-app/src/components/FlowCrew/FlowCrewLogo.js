@@ -1,46 +1,55 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 
 /**
- * A properly styled FlowCrew logo component that matches the design
+ * FlowCrewLogo
+ *
+ * Renders the real FlowCrew brand mark (infinity/wave, green->blue gradient),
+ * pulled from the icon-only crop of the uploaded logo lockup.
+ *
+ * - showText=true uses the full lockup image (mark + "FlowCrew" wordmark
+ *   baked in as a single asset) - use at larger sizes where the wordmark
+ *   stays legible (headers, splash/hero contexts).
+ * - showText=false uses the icon-only crop - use at small sizes (tab bars,
+ *   compact headers, nav icons) where the wordmark would be illegible.
  */
+const ICON_ONLY = require('../../../assets/flowcrew-icon.png');
+const FULL_LOCKUP = require('../../../assets/flowcrew-logo.png');
+
 const FlowCrewLogo = ({ size = 'medium', showText = true, style }) => {
-  // Size variants
   const sizes = {
-    small: {
-      container: { width: 24, height: 24 },
-      logo: { width: 24, height: 12 },
-      text: { fontSize: 12, marginTop: 2 }
-    },
-    medium: {
-      container: { width: 48, height: 48 },
-      logo: { width: 48, height: 24 },
-      text: { fontSize: 24, marginTop: 8 }
-    },
-    large: {
-      container: { width: 80, height: 80 },
-      logo: { width: 80, height: 40 },
-      text: { fontSize: 36, marginTop: 16 }
-    }
+    small: { width: 28, height: 28 },
+    medium: { width: 56, height: 56 },
+    large: { width: 96, height: 96 },
   };
 
-  const currentSize = sizes[size] || sizes.medium;
+  // Allow numeric size (e.g. size={32} as used by Header.js) as well as
+  // the named presets used elsewhere (HomeScreen, LessonSelectionScreen).
+  const dims = typeof size === 'number'
+    ? { width: size, height: size }
+    : (sizes[size] || sizes.medium);
+
+  if (showText) {
+    // Full lockup includes the wordmark in the image itself, so it needs
+    // more horizontal room than a square icon slot.
+    return (
+      <View style={[styles.container, style]}>
+        <Image
+          source={FULL_LOCKUP}
+          style={{ width: dims.width * 2.2, height: dims.width * 2.2 }}
+          resizeMode="contain"
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.container, style]}>
-      {/* Logo with wave accent */}
-      <View style={[styles.logoContainer, currentSize.logo]}>
-        {/* This is a simplified representation of the logo */}
-        {/* In a real app, we would use an SVG or proper image */}
-        <View style={styles.logoGradient}>
-          <View style={styles.waveAccent} />
-        </View>
-      </View>
-
-      {/* Text */}
-      {showText && (
-        <Text style={[styles.logoText, currentSize.text]}>FlowCrew</Text>
-      )}
+      <Image
+        source={ICON_ONLY}
+        style={{ width: dims.width, height: dims.height }}
+        resizeMode="contain"
+      />
     </View>
   );
 };
@@ -50,35 +59,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logoContainer: {
-    width: 48,
-    height: 24,
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  logoGradient: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 12,
-    backgroundColor: '#2196F3',
-    // In a real app, we would use a proper gradient:
-    // background: linear-gradient(90deg, #7ED321 0%, #00D4AA 50%, #2196F3 100%),
-  },
-  waveAccent: {
-    position: 'absolute',
-    right: '30%',
-    top: '30%',
-    width: '10%',
-    height: '30%',
-    backgroundColor: 'white',
-    borderRadius: 4,
-  },
-  logoText: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#1E2A39',
-    letterSpacing: -0.5,
-  }
 });
 
 export default FlowCrewLogo;

@@ -15,71 +15,28 @@ import MessagesScreen from './screens/FlowCrew/MessagesScreen';
 // Import components and styles
 import { Text } from './components/FlowCrew';
 import { Colors } from './styles/FlowCrewDesignSystem';
-import { HomeIcon, MapIcon, BookingIcon, MessageIcon, ProfileIcon } from './components/FlowCrew/Icons';
+import MeniscusTabBar from './components/FlowCrew/MeniscusTabBar';
 
 // Create navigators
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 // Main tab navigator
+// Icons are rendered by MeniscusTabBar itself (self-contained icon set),
+// so per-screen tabBarIcon options are no longer needed here.
 const MainTabNavigator = () => {
   return (
     <Tab.Navigator
+      tabBar={(props) => <MeniscusTabBar {...props} />}
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: Colors.brand.green,
-        tabBarInactiveTintColor: Colors.text.secondary,
-        tabBarStyle: {
-          backgroundColor: Colors.background.paper,
-          borderTopColor: Colors.border.subtle,
-        },
       }}
     >
-      <Tab.Screen
-        name="Discover"
-        component={DiscoverScreen}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <HomeIcon color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Map"
-        component={MapScreen}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <MapIcon color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Bookings"
-        component={BookingsScreen}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <BookingIcon color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Messages"
-        component={MessagesScreen}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <MessageIcon color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <ProfileIcon color={color} />
-          ),
-        }}
-      />
+      <Tab.Screen name="Discover" component={DiscoverScreen} />
+      <Tab.Screen name="Map" component={MapScreen} />
+      <Tab.Screen name="Bookings" component={BookingsScreen} />
+      <Tab.Screen name="Messages" component={MessagesScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 };

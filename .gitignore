@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.expo/
+*.log
+.env
+.env.local
+.env.production
+.env.*.local
+build/
+.DS_Store
+*.p8
+*.p12
+*.key
+*.mobileprovision

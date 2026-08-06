@@ -79,6 +79,24 @@ Claude Code (working directly in both repos) needs to:
 4. Verify Phase 1 RLS remediation status directly against Vula's Supabase
    instance rather than trusting the brief's written status
 
+## Open decision: WhatsApp (added 2026-08-06)
+
+FlowCrew already has a complete, working direct Meta WhatsApp Business Cloud
+API integration (WhatsAppIntegrationService.js) - message templates, webhook
+handling, auto-reply routing. This means the "chat" part of this brief's
+scope is NOT starting from empty; there are two viable paths for WhatsApp
+specifically:
+
+1. Keep FlowCrew's direct Meta integration, use Vula only for AI/recommendation
+   processing (narrowest reading of "intelligence processing + chat")
+2. Migrate WhatsApp itself onto Vula's WhatsApp-native platform too (broader,
+   gets the confirm=true gate on WhatsApp actions, but means rebuilding the
+   existing templates/webhooks against Vula's contract)
+
+Richard's call as of 2026-08-06: undecided, deferred pending more of the
+codebase being pulled. Do not assume either direction when implementing -
+confirm explicitly before building against one path.
+
 ## Suggested order of work
 
 1. Provision `flowcrew` as a Vula tenant (Claude Code, working in the Vula
